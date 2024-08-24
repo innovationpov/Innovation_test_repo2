@@ -29,10 +29,11 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: myapp
-        IMAGE_TAG: ${{ secrets.ECR_REPOSITORY }}/c2c-trace:${{ github.run_id }}
+        IMAGE_TAG: ${{ steps.tag_version.outputs.new_version  }}      
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
 
     - name: Output image digest
       id: output-digest
