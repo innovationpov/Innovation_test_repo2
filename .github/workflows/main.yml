@@ -9,9 +9,7 @@ on:
     branches: [ master ]
 
 jobs:
-  
   build:
-    
     name: Build Image
     runs-on: ubuntu-latest
 
