@@ -2,6 +2,7 @@ name: Deploy to ECR
 
 on:
   workflow_dispatch:
+  
 jobs:
   docker_build_push_ecr:
     name: 'Docker Build and Push to ACR'
@@ -33,7 +34,7 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-     - name: Output image digest
+    - name: Output image digest
       id: output-digest
       run: |
         echo "digest: ${{ steps.build-and-push.outputs.digest }} size:"
