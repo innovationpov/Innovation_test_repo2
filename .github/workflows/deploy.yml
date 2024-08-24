@@ -40,3 +40,19 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+     - name: Output image digest
+      id: output-digest
+      run: |
+        echo "digest: ${{ steps.build-and-push.outputs.digest }} size:"
+
+    - name: Run Prisma Cloud 
+      id: prisma-cloud
+      uses: bridgecrewio/checkov-action@master
+      env:
+       PRISMA_API_URL: https://api4.prismacloud.io
+      with:
+       api-key: ${{ secrets.BC_API_KEY }}
+       use_enforcement_rules: true
+       download_external_modules: true
+       repo_root_for_plan_enrichment: ./  
